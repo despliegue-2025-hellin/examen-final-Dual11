@@ -5,8 +5,8 @@ require_once __DIR__ . '/app/ActorApi.php';
 require_once __DIR__ . '/app/MovieController.php';
 
 // URLs de las APIs (configurables por variable de entorno)
-$moviesUrl = rtrim(getenv("API_MOVIES_URL") ?: "http://localhost:8081/api/movies", "/");
-$actorsUrl = rtrim(getenv("API_ACTORS_URL") ?: "http://localhost:8082/api/actors", "/");
+$moviesUrl = rtrim(getenv("API_MOVIES_URL") ?: "http://localhost:8080/api/movies", "/");
+$actorsUrl = rtrim(getenv("API_ACTORS_URL") ?: "http://localhost:8080/api/actors", "/");
 
 $movieApi = new MovieApi($moviesUrl);
 $actorApi = new ActorApi($actorsUrl);

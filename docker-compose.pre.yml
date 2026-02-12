@@ -1,0 +1,77 @@
+services:
+
+  api-actors:
+    build:
+      context: api-movies
+      dockerfile: Dockerfile
+    container_name: dev-api-actor
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: pre
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5433/actors_db
+      SPRING_DATASOURCE_USERNAME: app2
+      SPRING_DATASOURCE_PASSWORD: app2
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 60000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+
+
+  api-movies:
+    build:
+      context: api-actors
+      dockerfile: Dockerfile
+    container_name: dev-movies
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: pre
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/movies_db
+      SPRING_DATASOURCE_USERNAME: app1
+      SPRING_DATASOURCE_PASSWORD: app1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 60000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 1800000
+
+
+  db-movies:
+    image: postgres:16
+    container_name: dev-movies_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app1
+      POSTGRES_PASSWORD: app1
+      POSTGRES_DB: movies_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./api-movies/sql/dev/:/docker-entrypoint-initdb.d:ro
+
+  db-actors:
+    image: postgres:16
+    container_name: dev-actors_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app2
+      POSTGRES_PASSWORD: app2
+      POSTGRES_DB: actors_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./api-actors/sql/dev/:/docker-entrypoint-initdb.d:ro
+
+  frontend_movies:
+    build:
+      context: frontend-movies
+      dockerfile: Dockerfile
+    container_name: dev-frontend
+    environment:
+      API_MOVIES_URL: http://host.docker.internal:8081/api/movies
+      API_ACTORS_URL: http://host.docker.internal:8082/api/actors
+    ports:
+      - "8090:80"
+    volumes:
+      - ./frontend-movies:/var/www/html

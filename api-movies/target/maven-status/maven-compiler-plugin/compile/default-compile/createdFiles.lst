@@ -1,0 +1,4 @@
+com/hellin/movies/repository/MovieRepository.class
+com/hellin/movies/MoviesApplication.class
+com/hellin/movies/controller/MovieController.class
+com/hellin/movies/model/Movie.class
