@@ -6,10 +6,10 @@ services:
       dockerfile: Dockerfile
     container_name: dev-api-actor
     ports:
-      - "8082:8080"
+      - "8082:80"
     environment:
-      SPRING_PROFILES_ACTIVE: pre
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5433/actors_db
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-actors:5433/actors_db
       SPRING_DATASOURCE_USERNAME: app2
       SPRING_DATASOURCE_PASSWORD: app2
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
@@ -24,11 +24,10 @@ services:
       dockerfile: Dockerfile
     container_name: dev-movies
     ports:
-      - "8081:8080"
+      - "8081:80"
     environment:
-      SPRING_PROFILES_ACTIVE: pre
 
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/movies_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-movies:5432/movies_db
       SPRING_DATASOURCE_USERNAME: app1
       SPRING_DATASOURCE_PASSWORD: app1
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver

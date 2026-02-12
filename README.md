@@ -60,6 +60,8 @@ la base de datos crea en postgre, y el frontend
 - Hacemos lo mismo que antes, pero cambiando los datos
 - Nueva base de datos
 
+* Problema al mantener el back
+
 
 
 
